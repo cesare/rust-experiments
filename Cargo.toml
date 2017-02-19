@@ -3,4 +3,8 @@ name = "rust-experiments"
 version = "0.1.0"
 authors = ["SAWADA Tadashi <cesare@mayverse.jp>"]
 
+[[bin]]
+name = "range"
+path = "src/range.rs"
+
 [dependencies]
