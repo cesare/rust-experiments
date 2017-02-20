@@ -7,4 +7,8 @@ authors = ["SAWADA Tadashi <cesare@mayverse.jp>"]
 name = "range"
 path = "src/range.rs"
 
+[[bin]]
+name = "iterator"
+path = "src/iterator.rs"
+
 [dependencies]
