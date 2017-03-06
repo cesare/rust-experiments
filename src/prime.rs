@@ -43,9 +43,7 @@ impl Prime {
         for i in 0..len {
             let idx = (i * n + offset) as usize;
             if let Some(candidate) = candidates.get_mut(idx) {
-                if candidate.is_prime {
-                    candidate.is_prime = false
-                }
+                candidate.is_prime = false
             }
         }
     }
