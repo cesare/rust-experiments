@@ -4,6 +4,37 @@ pub struct Prime {
     max_investigated_number: u64,
 }
 
+struct FiniteArithmeticProgression {
+    current: u64,
+    diff: u64,
+    upto: u64,
+}
+
+impl FiniteArithmeticProgression {
+    pub fn new(init: u64, diff: u64, upto: u64) -> FiniteArithmeticProgression {
+        FiniteArithmeticProgression {
+            current: init,
+            diff: diff,
+            upto: upto,
+        }
+    }
+}
+
+impl Iterator for FiniteArithmeticProgression {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<u64> {
+        let next_value = self.current + self.diff;
+        if next_value < self.upto {
+            self.current = next_value;
+            Some(next_value)
+        } else {
+            None
+        }
+    }
+}
+
+
 struct Candidate {
     n: u64,
     is_prime: bool,
@@ -39,10 +70,10 @@ impl Prime {
     fn eliminate(candidates: &mut Vec<Candidate>, n: u64) {
         let first = candidates.first().unwrap().n;
         let offset = Prime::offset_to_nearest_multiple(n, first);
-        let len = (candidates.len() as u64 - offset) / n;
-        for i in 0..len {
-            let idx = (i * n + offset) as usize;
-            if let Some(candidate) = candidates.get_mut(idx) {
+        let len = candidates.len() as u64;
+        let seq = FiniteArithmeticProgression::new(offset, n, len);
+        for i in seq {
+            if let Some(candidate) = candidates.get_mut(i as usize) {
                 candidate.is_prime = false
             }
         }
