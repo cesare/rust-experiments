@@ -27,7 +27,7 @@ impl Prime {
     }
 
     fn next_candidates(&mut self) -> Vec<Candidate> {
-        let from = self.max_investigated_number;
+        let from = self.max_investigated_number + 1;
         let to = from + 100;
         self.candidates(from, to)
     }
