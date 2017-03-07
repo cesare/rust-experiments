@@ -24,10 +24,10 @@ impl Iterator for FiniteArithmeticProgression {
     type Item = u64;
 
     fn next(&mut self) -> Option<u64> {
-        let next_value = self.current + self.diff;
-        if next_value < self.upto {
-            self.current = next_value;
-            Some(next_value)
+        let current_value = self.current;
+        if current_value < self.upto {
+            self.current = current_value + self.diff;
+            Some(current_value)
         } else {
             None
         }
