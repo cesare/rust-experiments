@@ -1,3 +1,5 @@
+use std::ops::Range;
+
 #[derive(Debug)]
 pub struct Prime {
     known_primes: Vec<u64>,
@@ -57,10 +59,26 @@ impl Prime {
         }
     }
 
-    fn next_candidates(&mut self) -> Vec<Candidate> {
+    fn max_known_prime(&self) -> u64 {
+        *self.known_primes.last().unwrap()
+    }
+
+    fn next_candidates_range(&self) -> Range<u64> {
         let from = self.max_investigated_number + 1;
-        let to = from + 100;
-        self.candidates(from, to)
+        let fixed = from + 1000;
+        let limit = self.max_known_prime().pow(2);
+
+        if limit < fixed {
+            from..limit
+        }
+        else {
+            from..fixed
+        }
+    }
+
+    fn next_candidates(&mut self) -> Vec<Candidate> {
+        let range = self.next_candidates_range();
+        self.candidates(range.start, range.end)
     }
 
     fn candidates(&mut self, from: u64, to: u64) -> Vec<Candidate> {
