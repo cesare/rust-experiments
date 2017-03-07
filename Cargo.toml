@@ -15,4 +15,8 @@ path = "src/iterator.rs"
 name = "prime"
 path = "src/prime.rs"
 
+[[bin]]
+name = "seq"
+path = "src/seq.rs"
+
 [dependencies]
