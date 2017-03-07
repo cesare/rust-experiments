@@ -1,41 +1,12 @@
 use std::ops::Range;
+mod sequence;
+use sequence::ArithmeticProgression;
 
 #[derive(Debug)]
 pub struct Prime {
     known_primes: Vec<u64>,
     max_investigated_number: u64,
 }
-
-struct FiniteArithmeticProgression {
-    current: u64,
-    diff: u64,
-    upto: u64,
-}
-
-impl FiniteArithmeticProgression {
-    pub fn new(init: u64, diff: u64, upto: u64) -> FiniteArithmeticProgression {
-        FiniteArithmeticProgression {
-            current: init,
-            diff: diff,
-            upto: upto,
-        }
-    }
-}
-
-impl Iterator for FiniteArithmeticProgression {
-    type Item = u64;
-
-    fn next(&mut self) -> Option<u64> {
-        let current_value = self.current;
-        if current_value < self.upto {
-            self.current = current_value + self.diff;
-            Some(current_value)
-        } else {
-            None
-        }
-    }
-}
-
 
 struct Candidate {
     n: u64,
@@ -70,8 +41,7 @@ impl Prime {
 
         if limit < fixed {
             from..limit
-        }
-        else {
+        } else {
             from..fixed
         }
     }
@@ -87,10 +57,12 @@ impl Prime {
 
     fn eliminate(candidates: &mut Vec<Candidate>, n: u64) {
         let first = candidates.first().unwrap().n;
+        let last = candidates.last().unwrap().n;
+
         let offset = Prime::offset_to_nearest_multiple(n, first);
-        let len = candidates.len() as u64;
-        let seq = FiniteArithmeticProgression::new(offset, n, len);
-        for i in seq {
+        let seq = ArithmeticProgression::new(offset, n);
+
+        for i in seq.take_while(|&n| n <= last) {
             if let Some(candidate) = candidates.get_mut(i as usize) {
                 candidate.is_prime = false
             }
