@@ -46,12 +46,12 @@ impl Prime {
         }
     }
 
-    fn next_candidates(&mut self) -> Vec<Candidate> {
+    fn next_candidates(&self) -> Vec<Candidate> {
         let range = self.next_candidates_range();
         self.candidates(range.start, range.end)
     }
 
-    fn candidates(&mut self, from: u64, to: u64) -> Vec<Candidate> {
+    fn candidates(&self, from: u64, to: u64) -> Vec<Candidate> {
         (from..to).map(|n| Candidate::new(n)).collect()
     }
 
@@ -74,7 +74,7 @@ impl Prime {
         if r == 0 { 0 } else { n - r }
     }
 
-    fn filter(&mut self, candidates: &mut Vec<Candidate>) -> Vec<u64> {
+    fn filter(&self, candidates: &mut Vec<Candidate>) -> Vec<u64> {
         for p in &self.known_primes {
             Prime::eliminate(candidates, *p);
         }
