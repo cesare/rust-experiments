@@ -83,11 +83,20 @@ impl Prime {
             candidates.iter().filter_map(|c| if c.is_prime { Some(c.n) } else { None }).collect();
         xs
     }
+
+    fn proceed(&mut self) {
+        let mut cs = self.next_candidates();
+        let last = cs.last().unwrap().n;
+        let ps = self.filter(&mut cs);
+
+        self.known_primes.extend_from_slice(&ps);
+        self.max_investigated_number = last;
+    }
 }
 
 fn main() {
     let mut prime = Prime::new();
-    let mut candidates = prime.next_candidates();
-    let ps = prime.filter(&mut candidates);
-    println!("{:?}", ps);
+    prime.proceed();
+    prime.proceed();
+    println!("{:?}", prime.known_primes);
 }
