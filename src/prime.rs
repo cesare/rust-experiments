@@ -92,11 +92,16 @@ impl Prime {
         self.known_primes.extend_from_slice(&ps);
         self.max_investigated_number = last;
     }
+
+    fn proceed_upto(&mut self, n: u64) {
+        while self.max_investigated_number < n {
+            self.proceed();
+        }
+    }
 }
 
 fn main() {
     let mut prime = Prime::new();
-    prime.proceed();
-    prime.proceed();
+    prime.proceed_upto(10000);
     println!("{:?}", prime.known_primes);
 }
