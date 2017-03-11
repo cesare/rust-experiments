@@ -100,8 +100,35 @@ impl Prime {
     }
 }
 
+struct PrimeSequence {
+    prime: Prime,
+    current_idx: usize,
+}
+
+impl PrimeSequence {
+    fn new() -> PrimeSequence {
+        PrimeSequence {
+            prime: Prime::new(),
+            current_idx: 0,
+        }
+    }
+}
+
+impl Iterator for PrimeSequence {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<u64> {
+        while self.prime.known_primes.len() <= self.current_idx {
+            self.prime.proceed();
+        }
+        let &p = self.prime.known_primes.get(self.current_idx).unwrap();
+        self.current_idx += 1;
+
+        Some(p)
+    }
+}
+
 fn main() {
-    let mut prime = Prime::new();
-    prime.proceed_upto(10000);
-    println!("{:?}", prime.known_primes);
+    let ps = PrimeSequence::new().take(1000).collect::<Vec<u64>>();
+    println!("{:?}", ps);
 }
