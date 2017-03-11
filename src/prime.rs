@@ -112,6 +112,10 @@ impl PrimeSequence {
             current_idx: 0,
         }
     }
+
+    fn reset(&mut self) {
+        self.current_idx = 0;
+    }
 }
 
 impl Iterator for PrimeSequence {
@@ -129,6 +133,14 @@ impl Iterator for PrimeSequence {
 }
 
 fn main() {
-    let ps = PrimeSequence::new().take(1000).collect::<Vec<u64>>();
-    println!("{:?}", ps);
+    fn show_primes(primes: &mut PrimeSequence, n: usize) {
+        let ps = primes.take(n).collect::<Vec<u64>>();
+        println!("{:?}", ps);
+    }
+
+    let mut primes = PrimeSequence::new();
+    for n in vec![10, 20, 30] {
+        show_primes(&mut primes, n);
+        primes.reset();
+    }
 }
