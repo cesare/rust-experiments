@@ -19,6 +19,10 @@ path = "src/prime.rs"
 name = "seq"
 path = "src/seq.rs"
 
+[[bin]]
+name = "cargo-toml"
+path = "src/cargo-toml.rs"
+
 [dependencies]
 serde = "0.9"
 serde_derive = "0.9"
